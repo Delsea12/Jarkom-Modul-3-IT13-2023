@@ -321,4 +321,4 @@ Lugner 1GB, 1vCPU, dan 25 GB SSD.
 aturlah agar Eisen dapat bekerja dengan maksimal, lalu lakukan testing dengan 1000 request dan 100 request/second.
 
 ### Jawaban No.7
-
+Pada nomer 7 ini kita diminta untuk membuat load balancer dan melakukan testing dengan kententuan "1000 request dan 100 request/second". Karena konfigurasi sudah di jelaskan di git tag -a Load Balancer 
