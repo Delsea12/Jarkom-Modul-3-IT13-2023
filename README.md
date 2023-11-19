@@ -6,6 +6,7 @@
 | Wisnu Adjie Saka| 5027211051 | 
 
 
+---
 ### CLIENT (Untuk no. 6-12)
 Ada beberapa yang harus diinstall pada client, untuk nomor 6-12
 ```
@@ -15,6 +16,7 @@ apt-get install apache2-utils
 apt-get install htop -y
 ```
 
+---
 ### No. 6
 Pada masing-masing worker PHP, lakukan konfigurasi virtual host untuk website berikut dengan menggunakan php 7.3.
 
@@ -133,6 +135,7 @@ unlink /etc/nginx/sites-enabled/default
 service nginx restart
 ```
 
+---
 ### Load Balancer
 Untuk nomor 7-12 saya membuat di satu konfigurasi yang sama, dikarenakan nomor 7-12 terdapat di node  yang sama yaitu node load balancer aka Eisen. Pertama ada beberapa hal yang harus kita install
 ```
@@ -313,6 +316,7 @@ unlink /etc/nginx/sites-enabled/default
 service nginx restart
 ```
 
+---
 ### No. 7
 Kepala suku dari Bredt Region memberikan resource server sebagai berikut:
 Lawine, 4GB, 2vCPU, dan 80 GB SSD.
@@ -329,6 +333,7 @@ Dan bisa kita liat output nya adalah sebagai berikut
 ![ss mod3 7](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/061a7c09-f938-4e99-b8ff-784add86b7da)
 Request per Second nya adalah 335.55
 
+---
 ### No. 8
 Karena diminta untuk menuliskan grimoire, buatlah analisis hasil testing dengan 200 request dan 10 request/second masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
 - Nama Algoritma Load Balancer
@@ -347,9 +352,13 @@ ab -n 200 -c 10 http://10.70.2.3:805/
 ```
 ##### Hasil 
 ![ss 8_ab_rr](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/42e4dd01-6b0b-4be3-b742-fb93fd66d8a9)
+-
 ![ss 8_ht_1](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/c9e26270-4e00-4a8b-9a0b-32acfdd777c3)
+-
 ![ss 8_ht_2](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/1694b32c-50ee-4ef5-8b8c-5a12e7f41890)
+-
 ![ss 8_ht_3](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/663f2cf4-263c-4a92-b0bf-430270c73d91)
+-
 
 #### Leastconn
 ##### Perintah
@@ -375,7 +384,7 @@ ab -n 200 -c 10 http://10.70.2.3:804/
 ##### Hasil 
 
 
-
+---
 ### No. 9
 Dengan menggunakan algoritma Round Robin, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 100 request dengan 10 request/second, kemudian tambahkan grafiknya pada grimoire.
 
