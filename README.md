@@ -321,7 +321,89 @@ Lugner 1GB, 1vCPU, dan 25 GB SSD.
 aturlah agar Eisen dapat bekerja dengan maksimal, lalu lakukan testing dengan 1000 request dan 100 request/second.
 
 ### Jawaban No.7
-Pada nomer 7 ini kita diminta untuk membuat load balancer dan melakukan testing dengan kententuan "1000 request dan 100 request/second". Karena konfigurasi sudah di jelaskan di ```Load Balancer``` 
+Pada nomer 7 ini kita diminta untuk membuat load balancer dan melakukan testing dengan kententuan "1000 request dan 100 request/second". Setelah melakukan konfigurasi yang sudahdi jelaskan di ```Load Balancer``` , pada client kita akan menjalankan perintah 
+```
+ab -n 1000 -c 100 http://10.70.2.3:805/ 
+```
+Dan bisa kita liat output nya adalah sebagai berikut
+![ss mod3 7](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/061a7c09-f938-4e99-b8ff-784add86b7da)
+Request per Second nya adalah 335.55
+
+### No. 8
+Karena diminta untuk menuliskan grimoire, buatlah analisis hasil testing dengan 200 request dan 10 request/second masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
+- Nama Algoritma Load Balancer
+- Report hasil testing pada Apache Benchmark
+- Grafik request per second untuk masing masing algoritma. 
+- Analisis
+
+
+### Jawaban No.8
+Pada nomor ini kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami ".....". Berikut adalah hasil dari analisis nya : 
+
+#### Round Robin
+##### Perintah
+```
+ab -n 200 -c 10 http://10.70.2.3:805/
+```
+##### Hasil 
+![ss 8_ab_rr](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/42e4dd01-6b0b-4be3-b742-fb93fd66d8a9)
+![ss 8_ht_1](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/c9e26270-4e00-4a8b-9a0b-32acfdd777c3)
+![ss 8_ht_2](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/1694b32c-50ee-4ef5-8b8c-5a12e7f41890)
+![ss 8_ht_3](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/663f2cf4-263c-4a92-b0bf-430270c73d91)
+
+#### Leastconn
+##### Perintah
+```
+ab -n 200 -c 10 http://10.70.2.3:802/
+```
+##### Hasil 
+
+
+#### Ip Hash
+##### Perintah
+```
+ab -n 200 -c 10 http://10.70.2.3:803/
+```
+##### Hasil 
+
+
+#### Generic Hash
+##### Perintah
+```
+ab -n 200 -c 10 http://10.70.2.3:804/
+```
+##### Hasil 
+
+
+
+### No. 9
+Dengan menggunakan algoritma Round Robin, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 100 request dengan 10 request/second, kemudian tambahkan grafiknya pada grimoire.
+
+### Jawaban No.9
+Sama seperti nomor 8, kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami ".....". Berikut adalah hasil dari analisis nya :
+
+#### Worker 1
+##### Perintah
+```
+ab -n 100 -c 10 http://10.70.2.3:81/
+```
+##### Hasil 
+
+
+#### Worker 2
+##### Perintah
+```
+ab -n 100 -c 10 http://10.70.2.3:82/
+```
+##### Hasil 
+
+
+#### Worker 3
+##### Perintah
+```
+ab -n 100 -c 10 http://10.70.2.3:83/
+```
+##### Hasil 
 
 
 
