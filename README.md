@@ -892,10 +892,6 @@ lynx 10.70.2.3:801
 ##### Output
 ![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/97e337ce-f39b-4af7-8326-b910482b4765)
 -
-
-
-
-##
 Karena para petualang kehabisan uang, mereka kembali bekerja untuk mengatur ```riegel.canyon.yyy.com.```
 
 ## <a name="13"></a> Soal No.13
