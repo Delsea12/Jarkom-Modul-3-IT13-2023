@@ -135,6 +135,15 @@ unlink /etc/nginx/sites-enabled/default
 service nginx restart
 ```
 
+##### Output
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/52e7ae4a-8bea-42d5-baf5-ea41e416509a)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/05ae529e-6235-4932-9cb8-3a68cd032d41)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/7b6dce63-5f80-47bb-8878-5edf8db65f0b)
+-
+
+
 ---
 ### Load Balancer
 Untuk nomor 7-12 saya membuat di satu konfigurasi yang sama, dikarenakan nomor 7-12 terdapat di node  yang sama yaitu node load balancer aka Eisen. Pertama ada beberapa hal yang harus kita install
