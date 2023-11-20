@@ -895,3 +895,380 @@ lynx 10.70.2.3:801
 
 
 
+##
+Karena para petualang kehabisan uang, mereka kembali bekerja untuk mengatur ```riegel.canyon.yyy.com.```
+
+## <a name="13"></a> Soal No.13
+Semua data yang diperlukan, diatur pada Denken dan harus dapat diakses oleh Frieren, Flamme, dan Fern
+## Jawaban No.13
+- Melakukan setup pada denken
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install mariadb-server -y
+service mysql start
+```
+```
+mysql
+CREATE USER 'kelompokit13'@'%' IDENTIFIED BY 'passwordit13';
+CREATE USER 'kelompokit13'@'localhost' IDENTIFIED BY 'passwordit13';
+CREATE DATABASE dbkelompokit13;
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokit13'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'kelompokit13'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW DATABASES;
+```
+```
+echo '
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+[mysqld]
+skip-networking=0
+skip-bind-address' > /etc/mysql/my.cnf
+```
+- Melakukan testing pada Laravel Worker
+```
+mariadb --host=10.70.2.2 --port=3306 --user=kelompokit13 --password
+```
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176057169376968755/flameel-no13.png?ex=656d7b97&is=655b0697&hm=42f43fc43c55047a6874b2eb5454c6750ecceefc33e80df98a7e31074aca0897&)
+
+## <a name="14"></a> Soal No.14
+Frieren, Flamme, dan Fern memiliki Riegel Channel sesuai dengan quest guide berikut. Jangan lupa melakukan instalasi PHP8.0 dan Composer
+## Jawaban No.14
+- Melakukan installasi depensi dasar
+```
+apt-get update
+
+apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
+
+curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+```
+- Melakukan instalasi PHP
+```
+apt-get update
+apt-get install php8.0-mbstring php8.0-xml php8.0-cli php8.0-common php8.0-intl php8.0-opcache php8.0-readline php8.0-mysql php8.0-fpm php8.0-curl unzip wget -y
+apt install curl
+apt install php-curl
+apt install php-xml
+```
+
+- Melakukan instalasi Composer
+```
+wget https://getcomposer.org/download/2.0.13/composer.phar
+chmod +x composer.phar
+mv composer.phar /usr/bin/composer
+```
+- Melakukan composer update
+```
+apt-get install git -y
+cd /var/www
+git clone https://github.com/martuafernando/laravel-praktikum-jarkom.git
+cd laravel-praktikum-jarkom
+composer update
+```
+- Setelah melakukan composer update, lakukan konfigurasi pada worker
+```
+cp .env.example .env
+nano .env
+
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=10.70.2.2
+DB_PORT=3306
+DB_DATABASE=dbkelompokit13
+DB_USERNAME=kelompokit13
+DB_PASSWORD=passwordit13
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+MEMCACHED_HOST=127.0.0.1
+
+- /var/www/laravel-praktikum-jarkom
+php artisan migrate:fresh
+php artisan db:seed --class=AiringsTableSeeder
+php artisan key:generate
+php artisan config:cache
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+php artisan jwt:secret
+php artisan config:clear
+chown -R www-data.www-data /var/www/laravel-praktikum-jarkom/storage
+```
+
+```
+cd /etc/nginx/sites-available/implementasi
+echo ' server {
+ 	listen 8001;
+
+ 	root /var/www/laravel-praktikum-jarkom/public;
+
+ 	index index.php index.html index.htm;
+ 	server_name _;
+
+ 	location / {
+ 			try_files $uri $uri/ /index.php?$query_string;
+ 	}
+
+ 	# pass PHP scripts to FastCGI server
+ 	location ~ \.php$ {
+ 	include snippets/fastcgi-php.conf;
+ 	fastcgi_pass unix:/var/run/php/php8.0-fpm.sock;
+ 	}
+
+    location ~ /\.ht {
+ 			deny all;
+ 	}
+
+    error_log /var/log/nginx/implementasi_error.log;
+    access_log /var/log/nginx/implementasi_access.log;
+ }
+' > /etc/nginx/sites-available/implementasi
+ln -s /etc/nginx/sites-available/implementasi /etc/nginx/sites-enabled/
+chown -R www-data.www-data /var/www/laravel-praktikum-jarkom/storage
+service php8.0-fpm start
+service nginx start
+```
+- Untuk port, pada kelompok kami membagi dengan 
+
+    1. Fern : 8001
+    2. Flamme : 8002
+    3. Frieren : 8003
+
+- Setelah melakukan konfigurasi, cek dengan ```lynx localhost:<port worker>``` (contoh : lynx localhost:8001)
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176060089128460289/frieren-no14.png?ex=656d7e4f&is=655b094f&hm=fb7a0b40a0ec6664efd6071938672aafb087a33cb05478c7f7bddb7e18b51d19&)
+
+## Soal No.15 - 17
+Riegel Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second.
+## <a name="15"></a> Soal No.15
+POST /auth/register
+## Jawaban No.15
+- Buat file register.json yang nantinya akan dikirimkan dalam perintah /POST pada client
+- Jalankan perintah berikut pada ***client***
+- Untuk bagian http://10.69.4.2:8001 disesuaikan dengan ip worker:portnya yang ingin diuji
+```
+ab -n 100 -c 10 -p register.json -T application/json http://10.70.4.3:8001/api/auth/register
+```
+- ```ip:port``` worker yang dipakai sebagai contoh disini frieren
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176064505650876497/no_15.png?ex=656d826c&is=655b0d6c&hm=bebc81beb7879ec3be6cfc3e07baa1731d39387e2ae994401ca5084a2249c60a&)
+
+## <a name="16"></a> Soal No.16
+POST /auth/login 
+## Jawaban No.16
+- Buat file login.json yang nantinya akan dikirimkan dalam perintah /POST pada client
+- Jalankan perintah berikut pada ***client***
+-lakukan testing seperti No.15 dengan menggunakan htop
+```
+ab -n 100 -c 10 -p login.json -T application/json http://10.70.4.3:8001/api/auth/login
+```
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176064571757314068/login-no15.png?ex=656d827c&is=655b0d7c&hm=c9a9483995f8cd70d3cc573813d853a6a4c1d7df1edab61afced1e8d7abebb6f&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176064596444983407/htop_no_15.png?ex=656d8282&is=655b0d82&hm=24be83a3046b13b501b53f49e4e1e9cb25cea9e30a09d75bb9692508d5d768cb&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176064505650876497/no_15.png?ex=656d826c&is=655b0d6c&hm=bebc81beb7879ec3be6cfc3e07baa1731d39387e2ae994401ca5084a2249c60a&)
+## <a name="17"></a> Soal No.17
+GET /me 
+## Jawaban No.17
+- Untuk mendapatkan tokennya jalankan 
+```
+curl -X POST -H "Content-Type: application/json" -d @login.json http://10.70.4.3:8001/api/auth/login > login_output.txt
+```
+- Lalu lakukan set token dengan perintah berikut 
+```
+token=$(cat login_output.txt | jq -r '.token')
+```
+- Lakukan testing dengan cara menjalankan perintah berikut 
+```
+ab -n 100 -c 10 -H "Authorization: Bearer $token" http://10.70.4.3:8001/api/me
+```
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176066790045012009/no17-1.png?ex=656d848d&is=655b0f8d&hm=5d78bfc35ce843db905dd8bee55c6bb83b22a1d291aaea5299a8e547cbeeb51c&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176066814493610004/no17-2.png?ex=656d8492&is=655b0f92&hm=b86137c30d640b8b3284eec9136e517113b8f8d604fcf067f9586803b1335f30&)
+
+## <a name="18"></a> Soal No.18
+Untuk memastikan ketiganya bekerja sama secara adil untuk mengatur Riegel Channel maka implementasikan Proxy Bind pada Eisen untuk mengaitkan IP dari Frieren, Flamme, dan Fern
+## Jawaban No.18
+- Melakukan konfigurasi pada Eisen
+```
+echo '#Default menggunakan Round Robin
+upstream worker {
+    server 10.70.4.3:8001;
+    server 10.70.4.2:8002;
+    server 10.70.4.1:8003;
+}
+
+server {
+    listen 80;
+    server_name riegel.canyon.it13.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+}' > /etc/nginx/sites-available/laravel
+ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/
+service nginx restart
+```
+- Lakukan testing dengan cara 
+```
+ab -n 100 -c 10 -p login.json -T application/json http://riegel.canyon.it13.com/api/auth/login 
+```
+- Maka outputnya 
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176068045874143292/no_18_client.png?ex=656d85b8&is=655b10b8&hm=279b3b19778abe81b4b196da3e70ea1e84b0405b482682ffe3b68112a9e148b2&)
+
+- Untuk mengecek lognya gunakan perintah
+```
+cat /var/log/nginx/implementasi_access.log
+```
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176068001427112016/flammel-no18_.png?ex=656d85ad&is=655b10ad&hm=9d9f13f471daf9039c1e479db079cc3639faad9a8569d9c1918c9ab90a4810d0&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176068742833262693/fern-no18.png?ex=656d865e&is=655b115e&hm=e2306858414b15416921834011cf0001a04d1cf581b6034a57cb93c1f87d9ec7&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176068833262436373/frieren-no18.png?ex=656d8674&is=655b1174&hm=a5ad8ff40c06eddbde33ae683ae6386072ded4de8cdf570306c25562d77ef7f4&)
+
+## <a name="19"></a> Soal No.19
+Untuk meningkatkan performa dari Worker, coba implementasikan PHP-FPM pada Frieren, Flamme, dan Fern. Untuk testing kinerja naikkan 
+- pm.max_children
+- pm.start_servers
+- pm.min_spare_servers
+- pm.max_spare_servers
+sebanyak tiga percobaan dan lakukan testing sebanyak 100 request dengan 10 request/second 
+## Jawaban No.19
+- Membuat file konfigurasi sebanyak 3 percobaan 
+- melakukan testing dengan cara 
+```
+ab -n 100 -c 10 -p login.json -T application/json http://riegel.canyon.it13.com/api/auth/login 
+```
+- Script1.sh
+```
+#!/bin/bash
+# Setup Awal
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 8
+pm.start_servers = 4
+pm.min_spare_servers = 3
+pm.max_spare_servers = 7' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+- Script2.sh
+```
+#!/bin/bash
+# Setup Awal
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 10
+pm.start_servers = 6
+pm.min_spare_servers = 5
+pm.max_spare_servers = 9' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+- test3.sh
+```
+#!/bin/bash
+# Setup Awal
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 15
+pm.start_servers = 8
+pm.min_spare_servers = 7
+pm.max_spare_servers = 13' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+- Maka hasilnya akan sebagai berikut
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176071156386779207/test1-no_19.png?ex=656d889e&is=655b139e&hm=593e7d5635df88f6437486593a1568720e35af88f2d174827303958caa4aa139&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176071207842484244/test2-no_19.png?ex=656d88aa&is=655b13aa&hm=64276cfeeaa3355c3912fb25eb5a8acd362041a5c90918488b3309fc73db3865&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176071226993672223/test3-no_19.png?ex=656d88ae&is=655b13ae&hm=97e1924b0dde741598d11068df3af83f99f598f075f182219f4fa80fb3fcbe5a&)
+
+- Penjelasan :
+```pm.max_children``` : Menentukan jumlah maksimum proses anak (child processes) yang PHP-FPM dapat buat untuk melayani permintaan.
+
+```pm.start_servers```: Menentukan jumlah proses anak yang akan dibuat saat PHP-FPM pertama kali dijalankan.
+
+```pm.min_spare_servers```: Menentukan jumlah minimum proses anak yang akan dijaga hidup oleh PHP-FPM saat tidak ada permintaan yang diterima.
+
+```pm.max_spare_servers```: Menentukan jumlah maksimum proses anak yang diizinkan tetap hidup oleh PHP-FPM saat tidak ada permintaan yang diterima.
+
+- pada hasil testing, dapat dilihat bahwa rata-rata waktu processing semakin meningkat tiap script
+
+## <a name="20"></a> Soal No.20
+Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Eisen. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second
+## Jawaban No.20
+- Melakukan modifikasi pada Eisen dengan menambahkan ```least_conn;```
+
+```
+echo '#Default menggunakan Round Robin
+upstream worker {
+    least_conn;
+    server 10.70.4.3:8001;
+    server 10.70.4.2:8002;
+    server 10.70.4.1:8003;
+}
+
+server {
+    listen 80;
+    server_name riegel.canyon.it13.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+}' > /etc/nginx/sites-available/laravel
+```
+- Maka didapatkan Output sebagai berikut
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176072467387781160/no_20.png?ex=656d89d6&is=655b14d6&hm=5528a47bcabb005fe239617a5ccd8abd451eaf9f90c1bd55ccc32fa3cfdd03cc&)
+
+- Jika dibandingkan script1 sebelum ditambahkan ```least_conn``` dengan sesudah ditambahkan, ```least_conn``` dapat bekerja dengan baik karena hasil yang didapatkan lebih signifikan
+
+
