@@ -6,6 +6,359 @@
 | Wisnu Adjie Saka| 5027211051 | 
 
 
+## Daftar Isi
+
+- [Soal No.0](#0)
+- [Soal No.1](#1)
+- [Soal No.2](#2)
+- [Soal No.3](#3)
+- [Soal No.4](#4)
+- [Soal No.5](#5)
+- [Soal No.6](#6)
+- [Soal No.7](#7)
+- [Soal No.8](#8)
+- [Soal No.9](#9)
+- [Soal No.10](#10)
+- [Soal No.11](#11)
+- [Soal No.12](#12)
+- [Soal No.13](#13)
+- [Soal No.14](#14)
+- [Soal No.15](#15)
+- [Soal No.16](#16)
+- [Soal No.17](#17)
+- [Soal No.18](#18)
+- [Soal No.19](#19)
+- [Soal No.20](#20)
+
+## <a name="0"></a> Soal 0
+Melakukan register domain berupa ```riegel.canyon.yyy.com``` untuk worker Laravel dan ```granz.channel.yyy.com``` untuk worker PHP dan mengarah pada worker yang memiliki IP [prefix IP].x.1.
+## Jawaban No.0
+Pada server DNS (Heither), lakukan beberapa perintah berikut
+
+```
+apt-get update
+apt-get install bind9 -y
+```
+Setelah itu, dapat dilakukan konfigurasi untuk riegel dan granz
+```
+ zone "riegel.canyon.it13.com" {
+        type master;
+        file "/etc/bind/jarkom/riegel.canyon.it13.com";
+};
+
+zone "granz.channel.it13.com" {
+        type master;
+        file "/etc/bind/jarkom/granz.channel.it13.com";
+};
+```
+```
+# granz.channel.it13.com
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     granz.channel.it13.com. granz.channel.it13.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      granz.channel.it13.com.
+@       IN      A       10.70.1.2 //dns server
+@       IN      AAAA    ::1
+
+#  riegel.canyon.it13.com
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     riegel.canyon.it13.com. riegel.canyon.it13.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      riegel.canyon.it13.com.
+@       IN      A       10.70.1.2
+@       IN      AAAA    ::1
+```
+- Lakukan restart untuk DNS dengan perintah berikut 
+```
+service bind9 restart
+```
+- Lakukan testing pada client dengan cara ping riegel 
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176038734404255754/riegel-revolte.png?ex=656d6a6c&is=655af56c&hm=9dfd6759192fe45278a163709d3be1aeac252483fcc865a7c10164a6c3a0349a&)
+
+- Ping granz
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176038890449154088/granz-sein.png?ex=656d6a91&is=655af591&hm=741a8c839af8e8fb5040c902bc545e8804004052c2aefe730a672c39bef960fa&)
+
+## <a name="1"></a> Soal No.1
+Lakukan konfigurasi sesuai dengan peta yang sudah diberikan. 
+## Jawaban No.1
+- Aura (DHCP Relay)
+```
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address 10.70.1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address 10.70.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 10.70.3.12
+	netmask 255.255.255.0
+
+
+auto eth4
+iface eth4 inet static
+	address 10.70.4.12
+	netmask 255.255.255.0
+```
+- Himmel (DHCP Server)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.1.2
+	netmask 255.255.255.0
+	gateway 10.70.1.1
+```
+- Heiter (DNS Server)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.1.3
+	netmask 255.255.255.0
+	gateway 10.70.1.1
+
+```
+- Denken (Database Server)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.2.2
+	netmask 255.255.255.0
+	gateway 10.70.2.1
+
+```
+- Eisen (Load Balancer)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.2.3
+	netmask 255.255.255.0
+	gateway 10.70.2.1
+```
+- Frieren (Laravel Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.4.1
+	netmask 255.255.255.0
+	gateway 10.70.4.12
+```
+- Flamme (Laravel Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.4.2
+	netmask 255.255.255.0
+	gateway 10.70.4.12
+```
+- Fern (Laravel Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.4.3
+	netmask 255.255.255.0
+	gateway 10.70.4.12
+```
+- Lawine (PHP Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.3.1
+	netmask 255.255.255.0
+	gateway 10.70.3.12
+```
+- Linie (PHP Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.3.2
+	netmask 255.255.255.0
+	gateway 10.70.3.12
+
+```
+- Lugner (PHP Worker)
+```
+auto eth0
+iface eth0 inet static
+	address 10.70.3.3
+	netmask 255.255.255.0
+	gateway 10.70.3.12
+```
+- Revolte (Client)
+```
+auto eth0
+iface eth0 inet dhcp
+```
+- Richter (Client)
+```
+auto eth0
+iface eth0 inet dhcp
+```
+- Sein (Client)
+```
+auto eth0
+iface eth0 inet dhcp
+```
+- Stark (Client)
+```
+auto eth0
+iface eth0 inet dhcp
+```
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176043671284629594/image.png?ex=656d6f05&is=655afa05&hm=5c8b398dc46ae0206160301a681a1a96241c1c894fc501fbf23f56565d313e35&)
+
+
+## <a name="2"></a> Soal No.2
+Semua **CLIENT** harus menggunakan konfigurasi dari DHCP Server. Dan client yang melalui Switch3 mendapatkan range IP dari **[prefix IP].3.16 - [prefix IP].3.32** dan **[prefix IP].3.64 - [prefix IP].3.80**
+## Jawaban No.2
+- Lakukan penginstallan pada Aura (DHCP Relay)
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+service isc-dhcp-relay start
+```
+- Lakukan konfigurasi pada Aura (DHCP Relay)
+```
+echo 'SERVERS="10.70.1.2"
+INTERFACES="eth1 eth3 eth4"
+OPTIONS=""' > /etc/default/isc-dhcp-relay
+
+echo 'net.ipv4.ip_forward=1' > /etc/sysctl.conf
+```
+- Pada Himmel (DHCP Server) dilakukan konfigurasi
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install isc-dhcp-server
+
+# DHCP Server
+echo 'INTERFACESv4="eth0"
+INTERFACESv6="" ' > /etc/default/isc-dhcp-server
+echo 'subnet 10.70.1.0 netmask 255.255.255.0 {}
+
+subnet 10.70.3.0 netmask 255.255.255.0 { # [prefix.ip] switch 3
+    range 10.70.3.16 10.70.3.32; # range ip
+    range 10.70.3.64 10.70.3.80; # range ip
+    option routers 10.70.3.12; # [prefix ip]. switch 3. bebas
+}
+service isc-dhcp-server restart
+service isc-dhcp-server status
+```
+## <a name="3"></a> Soal No.3
+Client yang melalui Switch4 mendapatkan range IP dari **[prefix IP].4.12 - [prefix IP].4.20** dan **[prefix IP].4.160 - [prefix IP].4.168**
+## Jawaban No.3
+- Dilakukan konfigurasi untuk switch 4 pada Himmel (DHCP Server)
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install isc-dhcp-server
+
+# DHCP Server
+echo 'INTERFACESv4="eth0"
+INTERFACESv6="" ' > /etc/default/isc-dhcp-server
+echo 'subnet 10.70.1.0 netmask 255.255.255.0 {}
+
+subnet 10.70.4.0 netmask 255.255.255.0 {
+    range 10.70.4.12 10.70.4.20;
+    range 10.70.4.160 10.70.4.168;
+    option routers 10.70.4.12;
+}' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+service isc-dhcp-server status
+```
+## <a name="4"></a> Soal No.4
+Client mendapatkan DNS dari Heiter dan dapat terhubung dengan internet melalui DNS tersebut
+## Jawaban No.4
+- Melakukan konfigurasi pada Himmel (DHCP Server) untuk DNS 
+
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt-get install isc-dhcp-server
+
+# DHCP Server
+echo 'INTERFACESv4="eth0"
+INTERFACESv6="" ' > /etc/default/isc-dhcp-server
+echo 'subnet 10.70.1.0 netmask 255.255.255.0 {}
+
+subnet 10.70.3.0 netmask 255.255.255.0 { # [prefix.ip] switch 3
+    range 10.70.3.16 10.70.3.32; # range ip
+    range 10.70.3.64 10.70.3.80; # range ip
+    option routers 10.70.3.12; # [prefix ip]. switch 3. bebas
+    option broadcast-address 10.70.3.255; 
+    option domain-name-servers 10.70.1.3; #[prefix.ip].dns
+}
+
+subnet 10.70.4.0 netmask 255.255.255.0 {
+    range 10.70.4.12 10.70.4.20;
+    range 10.70.4.160 10.70.4.168;
+    option routers 10.70.4.12;
+    option broadcast-address 10.70.4.255;
+    option domain-name-servers 10.70.1.3;
+}' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+service isc-dhcp-server status
+```
+- Melakukan ping
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176053631653519390/riegel-stark.png?ex=656d784b&is=655b034b&hm=a1296d863ee5a5ed5b2949ddad307037e6ea5aa116dde6fbfcfe35b8fae9a9f9&)
+
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176053693381091348/granz-stark.png?ex=656d785a&is=655b035a&hm=030681a7759113c82cfe6df2e7fcadee5e54ebcfed1a4f994baa3bce7c28c971&)
+## <a name="5"></a> Soal No.5
+Lama waktu DHCP server meminjamkan alamat IP kepada Client yang melalui Switch3 selama 3 menit sedangkan pada client yang melalui Switch4 selama 12 menit. Dengan waktu maksimal dialokasikan untuk peminjaman alamat IP selama 96 menit 
+## Jawaban No.5
+- Melakukan setup pada Himmel (DNS Server) 
+```
+echo 'subnet 10.70.1.0 netmask 255.255.255.0 {}
+
+subnet 10.70.3.0 netmask 255.255.255.0 { # [prefix.ip] switch 3
+    range 10.70.3.16 10.70.3.32; # range ip
+    range 10.70.3.64 10.70.3.80; # range ip
+    option routers 10.70.3.12; # [prefix ip]. switch 3. bebas
+    option broadcast-address 10.70.3.255; 
+    option domain-name-servers 10.70.1.3; #[prefix.ip].dns
+    default-lease-time 180;
+    max-lease-time 5760;
+}
+
+subnet 10.70.4.0 netmask 255.255.255.0 {
+    range 10.70.4.12 10.70.4.20;
+    range 10.70.4.160 10.70.4.168;
+    option routers 10.70.4.12;
+    option broadcast-address 10.70.4.255;
+    option domain-name-servers 10.70.1.3;
+    default-lease-time 720;
+    max-lease-time 5760;
+}' > /etc/dhcp/dhcpd.conf
+```
+- Melakukan pengecekan waktu pada switch3
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176047712639131668/switch3-no_5.png?ex=656d72c8&is=655afdc8&hm=46ef94c0d7bca444eaa5ab03222236f5d1ba8e66baf933d914fff837cfe1ef73&)
+
+- Melakukan pengecekan waktu pada switch4
+![untitled](https://cdn.discordapp.com/attachments/901344920361656355/1176047822378913792/stark-switch4.png?ex=656d72e2&is=655afde2&hm=3571b305167715f690674b6f992ed03b48c8049f0274c9fd8a96237a1d56e53f&)
+
 ---
 ### CLIENT (Untuk no. 6-12)
 Ada beberapa yang harus diinstall pada client, untuk nomor 6-12
@@ -17,7 +370,7 @@ apt-get install htop -y
 ```
 
 ---
-### No. 6
+## <a name="6"></a> Soal No.6
 Pada masing-masing worker PHP, lakukan konfigurasi virtual host untuk website berikut dengan menggunakan php 7.3.
 
 ### Jawaban No.6
@@ -326,7 +679,7 @@ service nginx restart
 ```
 
 ---
-### No. 7
+## <a name="7"></a> Soal No.7
 Kepala suku dari Bredt Region memberikan resource server sebagai berikut:
 Lawine, 4GB, 2vCPU, dan 80 GB SSD.
 Linie, 2GB, 2vCPU, dan 50 GB SSD.
@@ -343,7 +696,7 @@ Dan bisa kita liat output nya adalah sebagai berikut
 Request per Second nya adalah 335.55
 
 ---
-### No. 8
+## <a name="8"></a> Soal No.8
 Karena diminta untuk menuliskan grimoire, buatlah analisis hasil testing dengan 200 request dan 10 request/second masing-masing algoritma Load Balancer dengan ketentuan sebagai berikut:
 - Nama Algoritma Load Balancer
 - Report hasil testing pada Apache Benchmark
@@ -427,7 +780,7 @@ req/s).
 
 
 ---
-### No. 9
+## <a name="9"></a> Soal No.9
 Dengan menggunakan algoritma Round Robin, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 100 request dengan 10 request/second, kemudian tambahkan grafiknya pada grimoire.
 
 ### Jawaban No.9
@@ -492,7 +845,7 @@ second untuk 3 worker.
 
 
 ---
-### No. 10
+## <a name="10"></a> Soal No.10
 Selanjutnya coba tambahkan konfigurasi autentikasi di LB dengan dengan kombinasi username: “netics” dan password: “ajkyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/rahasisakita/
 
 ### Jawaban No.10
@@ -512,7 +865,7 @@ lynx 10.70.2.3:80
 
 
 ---
-### No. 11
+## <a name="11"></a> Soal No.11
 Lalu buat untuk setiap request yang mengandung /its akan di proxy passing menuju halaman https://www.its.ac.id.
 
 ### Jawaban No.11
@@ -527,7 +880,7 @@ lynx 10.70.2.3/its
 
 
 ---
-### No. 12
+## <a name="12"></a> Soal No.12
 Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].3.69, [Prefix IP].3.70, [Prefix IP].4.167, dan [Prefix IP].4.168.
 
 ### Jawaban No.12
