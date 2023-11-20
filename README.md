@@ -482,3 +482,54 @@ second untuk 3 worker.
 
 
 
+---
+### No. 10
+Selanjutnya coba tambahkan konfigurasi autentikasi di LB dengan dengan kombinasi username: “netics” dan password: “ajkyyy”, dengan yyy merupakan kode kelompok. Terakhir simpan file “htpasswd” nya di /etc/nginx/rahasisakita/
+
+### Jawaban No.10
+Pada nomor 10 ini kita diminta untuk memasukan konfigurasi autentikasi pada load balancer, untuk konfigurasi nya sudah di jelaskan di ```Load Balancer```. Setelah melakukan konfigurasi kita akan melakukan pengetesan dengan masuk ke website nya dan memasukan id dan password sesuai yang kita buat di konfigurasi nya. ID : netics , password : ajkit13
+```
+lynx 10.70.2.3:80
+```
+
+##### Output
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/00ab5eda-8e00-40e1-bf00-690a6bc58de5)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/dacce817-c747-4666-86ad-8ac5092fb1b5)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/cebb0d35-442a-492c-ba51-808520466a7a)
+-
+
+
+
+---
+### No. 11
+Lalu buat untuk setiap request yang mengandung /its akan di proxy passing menuju halaman https://www.its.ac.id.
+
+### Jawaban No.11
+Pada soal ini kita diminta untuk membuat request yang mengandung /its akan di proxy passing menuju halaman https://www.its.ac.id. Untuk konfigurasi nomor ini sudah dijelaskan di ```Load Balancer```. Setelah melakukan konfigurasi jalankan perintah ini untuk melihat apakah berhasil atau tidak
+```
+lynx 10.70.2.3/its
+```
+
+##### Output
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/fbcf9451-0846-4a3c-9579-4671986ce5c4)
+-
+
+
+---
+### No. 12
+Selanjutnya LB ini hanya boleh diakses oleh client dengan IP [Prefix IP].3.69, [Prefix IP].3.70, [Prefix IP].4.167, dan [Prefix IP].4.168.
+
+### Jawaban No.12
+Pada soal ini kita diminta untuk membatasi akses website kita, client dengan IP tertentu saja yang dapat masuk (ketentuan ada pada soal). Jika kita menjalankan perintah dibawah ini, dikarenakan bukan IP yang dapat melakukan akses, maka output nya akan "Forbidden"
+```
+lynx 10.70.2.3:801
+```
+
+##### Output
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/97e337ce-f39b-4af7-8326-b910482b4765)
+-
+
+
+
