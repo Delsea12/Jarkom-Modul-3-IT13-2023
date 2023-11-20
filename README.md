@@ -343,7 +343,7 @@ Karena diminta untuk menuliskan grimoire, buatlah analisis hasil testing dengan 
 
 
 ### Jawaban No.8
-Pada nomor ini kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami ".....". Berikut adalah hasil dari analisis nya : 
+Pada nomor ini kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami "[Grimoire IT13](https://drive.google.com/file/d/14h0cMQdB2nH8Dd5lOG7M1XEUZ4dOiO1M/view?usp=sharing)". Berikut adalah hasil dari analisis nya : 
 
 #### Round Robin
 ##### Perintah
@@ -366,7 +366,14 @@ ab -n 200 -c 10 http://10.70.2.3:805/
 ab -n 200 -c 10 http://10.70.2.3:802/
 ```
 ##### Hasil 
-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/4a2458b8-53d8-4871-bcb2-eee3fbf9b110)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/68ca54c1-7326-4168-a69b-74f8e87c63b0)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/f2657ad1-37cd-48dd-9f91-ce228d4c8644)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/caa5e09b-ed95-4bb7-9044-f515f59e58ad)
+-
 
 #### Ip Hash
 ##### Perintah
@@ -374,7 +381,14 @@ ab -n 200 -c 10 http://10.70.2.3:802/
 ab -n 200 -c 10 http://10.70.2.3:803/
 ```
 ##### Hasil 
-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/468d206c-798e-4fd3-a277-9c735e5e6d0a)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/0cb3ac6a-9110-44e4-bdb2-826cef38987a)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/be12be9e-3413-44a5-b1d2-a1318f92ba17)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/e6d601ca-6e33-4f63-b378-7568b8bb87e5)
+-
 
 #### Generic Hash
 ##### Perintah
@@ -382,6 +396,25 @@ ab -n 200 -c 10 http://10.70.2.3:803/
 ab -n 200 -c 10 http://10.70.2.3:804/
 ```
 ##### Hasil 
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/649607cf-d75d-42d9-bd69-39a1cf95a05a)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/e59f4613-0870-4ac2-a632-e89b43d7aee4)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/70ef56dc-cfc7-4e47-9508-f98f7a464094)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/06fda7f8-f2ba-4974-b639-70b82bedca3c)
+-
+
+#### Grafik
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/693c8d6c-279d-491b-bedc-df757fba14ae)
+-
+
+#### Analisis
+Berdasarkan hasil testing dengan Apache Benchmark menggunakan 200 request
+dan 10 request/second, algoritma Load Balancer "Leastconn" menunjukkan kinerja
+tertinggi dengan throughput sebesar 379.96 request per second, diikuti oleh "Ip
+Hash" (382.66 req/s), "Generic Hash" (383.15 req/s), dan "Round Robin" (364.83
+req/s).
 
 
 ---
@@ -389,7 +422,7 @@ ab -n 200 -c 10 http://10.70.2.3:804/
 Dengan menggunakan algoritma Round Robin, lakukan testing dengan menggunakan 3 worker, 2 worker, dan 1 worker sebanyak 100 request dengan 10 request/second, kemudian tambahkan grafiknya pada grimoire.
 
 ### Jawaban No.9
-Sama seperti nomor 8, kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami ".....". Berikut adalah hasil dari analisis nya :
+Sama seperti nomor 8, kita diminta untuk membuat laporan analisis (Grimoire) dengan beberapa ketentuan pada soal. Ini adalah link untuk Grimoire kelompok kami "[Grimoire IT13](https://drive.google.com/file/d/14h0cMQdB2nH8Dd5lOG7M1XEUZ4dOiO1M/view?usp=sharing)". Berikut adalah hasil dari analisis nya :
 
 #### Worker 1
 ##### Perintah
@@ -397,7 +430,14 @@ Sama seperti nomor 8, kita diminta untuk membuat laporan analisis (Grimoire) den
 ab -n 100 -c 10 http://10.70.2.3:81/
 ```
 ##### Hasil 
-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/93855ee5-112a-4480-9fae-b5a6ef0e3d18)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/bdab134c-e178-4913-af16-8312ecb7463d)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/901815c2-5336-494e-bc73-f51984e3b152)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/982b7a8a-ab5a-4ae5-80f8-e8e9583c9ff3)
+-
 
 #### Worker 2
 ##### Perintah
@@ -405,7 +445,14 @@ ab -n 100 -c 10 http://10.70.2.3:81/
 ab -n 100 -c 10 http://10.70.2.3:82/
 ```
 ##### Hasil 
-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/9f1d09b1-e907-4363-b1cc-9efbd311340d)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/e464a207-59de-4db7-9018-f25bdf03ebda)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/6dda9e55-2f46-4d6d-a48a-d07ba3b2eed2)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/3e783e51-1561-43b0-99d9-c690fd735d63)
+-
 
 #### Worker 3
 ##### Perintah
@@ -413,6 +460,25 @@ ab -n 100 -c 10 http://10.70.2.3:82/
 ab -n 100 -c 10 http://10.70.2.3:83/
 ```
 ##### Hasil 
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/15dd46a8-9e89-48d7-8e71-f632f1f530a5)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/b0037af0-1176-49a7-896d-a06c53f5a74c)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/dd1d86d6-de13-4f79-bdb6-5bc371d62230)
+-
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/2e2872a4-197c-467c-b54e-6d15e06957ca)
+-
+
+#### Grafik
+![image](https://github.com/Delsea12/Jarkom-Modul-3-IT13-2023/assets/113821220/5915f99b-542a-4ac8-814b-6dbe32db3125)
+-
+
+#### Analisis
+Dalam pengujian menggunakan algoritma Round Robin dengan 100 request dan 10
+request/second, terlihat bahwa kinerja Load Balancer meningkat seiring dengan
+peningkatan jumlah worker, dengan throughput sebesar 393.67 request per second
+untuk 1 worker, 380.04 request per second untuk 2 worker, dan 383.79 request per
+second untuk 3 worker.
 
 
 
